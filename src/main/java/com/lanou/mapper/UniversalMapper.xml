@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.lanou.mapper.UniversalMapper">
+
+    <sql id="NameOrEmail">
+        email = #{value} OR admin_code = #{value}
+    </sql>
+
+    <!-- 判断姓名是否存在 -->
+    <select id="findByNameOrEmail"
+            parameterType="java.lang.String"
+            resultType="com.lanou.domain.AdminInfo">
+        SELECT * FROM admin_info
+        WHERE
+        <include refid="NameOrEmail"/>
+    </select>
+
+    <select id="passUser"
+            parameterType="com.lanou.domain.AdminInfo"
+            resultType="com.lanou.domain.AdminInfo">
+        SELECT * FROM admin_info
+        WHERE
+        password = #{password} AND
+        (email = #{email} OR admin_code = #{admin_code})
+    </select>
+
+    <!-- 遍历所有用户 -->
+    <select id="findAllUser"
+            resultType="com.lanou.domain.AdminInfo">
+        SELECT * FROM admin_info
+    </select>
+
+</mapper>
