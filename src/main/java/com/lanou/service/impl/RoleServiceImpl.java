@@ -48,6 +48,11 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+    public List<Role> findRoles() {
+        return roleMapper.findRoles();
+    }
+
+
     private void foreachRole(){
 
         for (AdminForRole adminForRole : roleName) {

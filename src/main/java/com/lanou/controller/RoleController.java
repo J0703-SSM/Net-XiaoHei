@@ -2,6 +2,7 @@ package com.lanou.controller;
 
 import com.lanou.domain.AdminForRole;
 import com.lanou.domain.AdminInfo;
+import com.lanou.domain.Role;
 import com.lanou.domain.RoleForUser;
 import com.lanou.service.RoleService;
 import com.lanou.service.UniversalService;
@@ -42,7 +43,13 @@ public class RoleController {
     }
 
     @RequestMapping("/addRole")
-    public String intoAddRole(){
+    public String intoAddRole(Model model){
+
+        List<Role> roleList = roleService.findRoles();
+
+        model.addAttribute("roleList",roleList);
+
+        System.out.println(roleList);
 
         return "role/role_add";
 

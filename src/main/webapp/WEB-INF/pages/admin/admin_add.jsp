@@ -24,7 +24,7 @@
     <body>
         <!--Logo区域开始-->
         <div id="header">
-            <img src="../images/logo.png" alt="logo" class="left"/>
+            <img src="../../../images/logo.png" alt="logo" class="left"/>
             <a href="#">[退出]</a>            
         </div>
         <!--Logo区域结束-->
@@ -110,7 +110,7 @@
         <div id="footer">
             <span>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</span>
             <br />
-            <span>版权所有(C)云科技有限公司 </span>
+            <span>Powered By XiaoHei </span>
         </div>
     </body>
 </html>

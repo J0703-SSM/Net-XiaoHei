@@ -16,4 +16,6 @@ public interface RoleMapper {
     List<AdminForRole> findRoleName(int id);
 
     List<AdminForRole> findAllCustomRole();
+
+    List<Role> findRoles();
 }

@@ -19,6 +19,12 @@
 
     </resultMap>
 
+    <select id="findRoles"
+            resultMap="userRoleMap">
+        SELECT id ,PRIVILEGE_INFO.NAME pname
+        FROM PRIVILEGE_INFO
+    </select>
+
     <select id="findRoleById"
             parameterType="int"
             resultMap="userRoleMap">

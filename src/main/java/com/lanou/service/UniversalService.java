@@ -13,6 +13,12 @@ public interface UniversalService {
 
     AdminInfo passUser(AdminInfo adminInfo);
 
+    AdminInfo findUserById(int id);
+
     List<AdminInfo> findAllUser();
+
+    boolean updateUser(AdminInfo adminInfo);
+
+    boolean updatePassword(AdminInfo adminInfo);
 
 }

@@ -1,4 +1,6 @@
-﻿<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+﻿<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page isELIgnored="false" %>
 <%--<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">--%>
 <html>
     <head>
@@ -59,13 +61,15 @@
                 <div class="input_info_high">
                     <div class="input_info_scroll">
                         <ul>
-                            <li><input type="checkbox" />管理员管理</li>
-                            <li><input type="checkbox" />角色管理</li>
-                            <li><input type="checkbox" />资费管理</li>
-                            <li><input type="checkbox" />账务账号</li>
-                            <li><input type="checkbox" />业务账号</li>
-                            <li><input type="checkbox" />账单</li>
-                            <li><input type="checkbox" />报表</li>
+                            <c:forEach items="${roleList}" var="role">
+                            <li><input type="checkbox" name="role" value="${role.privilegeId}"/>${role.privilegeName}</li>
+                            </c:forEach>
+                            <%--<li><input type="checkbox" />角色管理</li>--%>
+                            <%--<li><input type="checkbox" />资费管理</li>--%>
+                            <%--<li><input type="checkbox" />账务账号</li>--%>
+                            <%--<li><input type="checkbox" />业务账号</li>--%>
+                            <%--<li><input type="checkbox" />账单</li>--%>
+                            <%--<li><input type="checkbox" />报表</li>--%>
                         </ul>
                     </div>
                     <span class="required">*</span>
@@ -81,7 +85,7 @@
         <div id="footer">
             <span>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</span>
             <br />
-            <span>版权所有(C)云科技有限公司 </span>
+            <span>Powered By XiaoHei </span>
         </div>
     </body>
 </html>

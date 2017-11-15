@@ -39,7 +39,40 @@ public class UniversalServiceImpl implements UniversalService {
 
     }
 
+    public AdminInfo findUserById(int id) {
+
+        return universalMapper.findUserById(id);
+
+    }
+
     public List<AdminInfo> findAllUser() {
         return universalMapper.findAllUser();
     }
+
+    public boolean updateUser(AdminInfo adminInfo) {
+
+        int count = universalMapper.updateUser(adminInfo);
+
+        if(count > 0){
+
+            return true;
+
+        }
+
+        return false;
+    }
+
+    public boolean updatePassword(AdminInfo adminInfo) {
+
+        int count = universalMapper.updatePassword(adminInfo);
+
+        if(count > 0){
+
+            return true;
+
+        }
+
+        return false;
+    }
+
 }

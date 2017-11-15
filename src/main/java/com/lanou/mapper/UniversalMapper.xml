@@ -25,10 +25,32 @@
         (email = #{email} OR admin_code = #{admin_code})
     </select>
 
+    <!-- 根据id查找用户 -->
+    <select id="findUserById"
+            parameterType="int"
+            resultType="com.lanou.domain.AdminInfo">
+        SELECT * FROM admin_info
+        WHERE id = #{value}
+    </select>
+
     <!-- 遍历所有用户 -->
     <select id="findAllUser"
             resultType="com.lanou.domain.AdminInfo">
         SELECT * FROM admin_info
     </select>
+
+    <!-- 更新用户 -->
+    <update id="updateUser"
+            parameterType="com.lanou.domain.AdminInfo">
+        UPDATE ADMIN_INFO SET NAME = #{name},TELEPHONE = #{telephone},EMAIL = #{email}
+        WHERE ID = #{id}
+    </update>
+
+    <!-- 更新密码 -->
+    <update id="updatePassword"
+            parameterType="com.lanou.domain.AdminInfo">
+        UPDATE ADMIN_INFO SET password = #{password}
+        WHERE ID = #{id}
+    </update>
 
 </mapper>

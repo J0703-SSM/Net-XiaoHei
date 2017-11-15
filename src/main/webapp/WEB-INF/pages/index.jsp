@@ -45,7 +45,7 @@
                     </c:if>
 
                 <li><a href="/userInfo/into" class="information_off"></a></li>
-                <li><a href="user/user_modi_pwd.jsp" class="password_off"></a></li>
+                <li><a href="/userInfo/intoRewrite" class="password_off"></a></li>
             </ul>
         </div>
     </body>

@@ -1,6 +1,7 @@
 package com.lanou.mapper;
 
 import com.lanou.domain.AdminInfo;
+import com.lanou.domain.Role;
 
 import java.util.List;
 
@@ -13,6 +14,12 @@ public interface UniversalMapper {
 
     AdminInfo passUser(AdminInfo adminInfo);
 
+    AdminInfo findUserById(int id);
+
     List<AdminInfo> findAllUser();
+
+    int updateUser(AdminInfo adminInfo);
+
+    int updatePassword(AdminInfo adminInfo);
 
 }

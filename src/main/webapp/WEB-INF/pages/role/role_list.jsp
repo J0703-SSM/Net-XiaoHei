@@ -63,7 +63,7 @@
             <form action="" method="">
                 <!--查询-->
                 <div class="search_add">
-                    <input type="button" value="增加" class="btn_add" onclick="location.href='/role/';" />
+                    <input type="button" value="增加" class="btn_add" onclick="location.href='/role/addRole';" />
                 </div>  
                 <!--删除的操作提示-->
                 <div id="operate_result_info" class="operate_success">
