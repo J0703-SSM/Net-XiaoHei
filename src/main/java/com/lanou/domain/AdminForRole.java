@@ -12,6 +12,10 @@ public class AdminForRole {
 
     private String roleName;
 
+    private String code;
+
+    private boolean state;
+
     private Map<String,String> roles = new HashMap<String, String>();
 
     public int getRoleId() {
@@ -38,11 +42,29 @@ public class AdminForRole {
         this.roles = roles;
     }
 
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
+        this.state = state;
+    }
+
     @Override
     public String toString() {
         return "AdminForRole{" +
                 "roleId=" + roleId +
                 ", roleName='" + roleName + '\'' +
+                ", code='" + code + '\'' +
+                ", state=" + state +
                 ", roles=" + roles +
                 '}';
     }

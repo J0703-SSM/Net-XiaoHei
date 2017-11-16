@@ -3,7 +3,7 @@ package com.lanou.domain;
 /**
  * 角色信息
  */
-public class Role {
+public class Role extends AdminForRole {
 
     private int privilegeId;
 

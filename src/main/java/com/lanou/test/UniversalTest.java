@@ -17,6 +17,7 @@ import org.springframework.test.context.web.WebAppConfiguration;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Created by dllo on 17/11/11.
@@ -114,6 +115,17 @@ public class UniversalTest {
 //
 //        System.out.println(customRole);
 //
+//        AdminForRole byName = roleMapper.findRoleByName("超级管理员");
+//
+//        System.out.println(byName);
+
+    }
+
+    @Test
+    public void startUUID(){
+
+        System.out.println(UUID.randomUUID().toString().replace("-",""));
+
     }
 
 }

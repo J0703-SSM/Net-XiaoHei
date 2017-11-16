@@ -16,7 +16,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         String uri = request.getRequestURI();
 
-        if(uri.indexOf("/universal") != -1){
+        if(uri.contains("/universal")){
 
             return true;
 
@@ -26,7 +26,7 @@ public class LoginInterceptor implements HandlerInterceptor {
 
         if(user == null){
 
-            request.getRequestDispatcher("/WEB_INF/pages/login.jsp").forward(request,response);
+            request.getRequestDispatcher("/WEB-INF/pages/login.jsp").forward(request,response);
 
         }
 

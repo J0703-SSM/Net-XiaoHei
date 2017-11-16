@@ -21,7 +21,7 @@
 
     <select id="findRoles"
             resultMap="userRoleMap">
-        SELECT id ,PRIVILEGE_INFO.NAME pname
+        SELECT id PRIVILEGE_ID ,PRIVILEGE_INFO.NAME pname
         FROM PRIVILEGE_INFO
     </select>
 
@@ -45,13 +45,41 @@
 
         FROM ADMIN_ROLE,ROLE_INFO
         WHERE ADMIN_ROLE.ADMIN_ID = #{value}
-        AND ADMIN_ROLE.ROLE_ID = ROLE_INFO.ID;
+        AND ADMIN_ROLE.ROLE_ID = ROLE_INFO.ID
+        AND ROLE_INFO.state = TRUE ;
     </select>
 
     <select id="findAllCustomRole"
             resultMap="adminRoleMap">
 
-        SELECT ROLE_INFO.ID rid,ROLE_INFO.NAME rname FROM ROLE_INFO;
+        SELECT ROLE_INFO.ID rid,ROLE_INFO.NAME rname
+        FROM ROLE_INFO
+        WHERE ROLE_INFO.state = TRUE;
     </select>
 
+    <select id="findRoleByName"
+            parameterType="java.lang.String"
+            resultMap="adminRoleMap">
+        SELECT ROLE_INFO.ID rid,ROLE_INFO.NAME rname
+        FROM ROLE_INFO
+        WHERE ROLE_INFO.NAME = #{value}
+        AND ROLE_INFO.state = TRUE;
+    </select>
+
+    <insert id="addRolezInfo"
+            parameterType="com.lanou.domain.AdminForRole">
+        INSERT INTO ROLE_INFO(NAME,code,state) VALUES (#{roleName},#{code},FALSE)
+    </insert>
+
+    <!-- 插入权限id -->
+    <insert id="addRoleId"
+            parameterType="com.lanou.domain.Role">
+        INSERT INTO ROLE_PRIVILEGE(ROLE_ID, PRIVILEGE_ID) VALUE (#{roleId},#{privilegeId})
+    </insert>
+
+    <!-- 激活角色 -->
+    <update id="activeRole"
+            parameterType="java.lang.String">
+        UPDATE ROLE_INFO SET state = TRUE WHERE code=#{value}
+    </update>
 </mapper>

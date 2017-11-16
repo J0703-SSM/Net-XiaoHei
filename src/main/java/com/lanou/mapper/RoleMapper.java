@@ -11,6 +11,8 @@ import java.util.List;
  */
 public interface RoleMapper {
 
+    AdminForRole findRoleByName(String roleName);
+
     List<Role> findRoleById(int id);
 
     List<AdminForRole> findRoleName(int id);
@@ -18,4 +20,10 @@ public interface RoleMapper {
     List<AdminForRole> findAllCustomRole();
 
     List<Role> findRoles();
+
+    int addRolezInfo(AdminForRole adminForRole);
+
+    int addRoleId(Role role);
+
+    int activeRole(String code);
 }

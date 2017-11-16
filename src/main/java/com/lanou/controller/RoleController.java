@@ -6,12 +6,21 @@ import com.lanou.domain.Role;
 import com.lanou.domain.RoleForUser;
 import com.lanou.service.RoleService;
 import com.lanou.service.UniversalService;
+import com.lanou.util.ResultMsg;
+import com.lanou.util.mail.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import javax.mail.MessagingException;
+import javax.servlet.http.HttpServletRequest;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -66,7 +75,84 @@ public class RoleController {
 
     }
 
+    @ResponseBody
+    @RequestMapping("/passRoleName")
+    public ResultMsg passRoleName(AdminForRole adminForRole){
 
+        if(adminForRole.getRoleName().trim().equals("")){
+
+            return new ResultMsg(1,"角色名不能为空");
+
+        }
+
+        if(adminForRole.getRoleName().trim().length() > 10){
+
+            return new ResultMsg(1,"角色名长度不能大于10个字符");
+
+        }
+
+        boolean b = roleService.findRoleByName(adminForRole);
+
+        if(b){
+
+            return new ResultMsg(0,"角色名可以使用");
+
+        }else {
+
+            return new ResultMsg(1,"角色名已被使用");
+
+        }
+
+    }
+
+    @RequestMapping("/addRoleNexus")
+    public String addRoleNexus(int[] role, String roleName, String email, Model model, HttpServletRequest request) throws IOException, MessagingException, InterruptedException {
+
+        /* 进行插入操作 */
+        String uuid = roleService.addRole(role, roleName, email);
+
+        /* 执行确认完成后 */
+        if(uuid != null){
+
+            /* 将激活码存入域中 */
+            request.getServletContext().setAttribute("activateRole", uuid);
+
+            /* 延时休眠1.5秒 */
+            Thread.sleep(1500);
+
+            /* 返回主页 */
+            return "index";
+
+        }
+
+        /* 返回添加界面 */
+        return "role/role_add";
+
+    }
+
+    /* 邮件确认操作 */
+    @RequestMapping("/activateEmail/{code}")
+    public String activate(@PathVariable String code, HttpServletRequest request, Model model){
+
+        String actUUID = (String) request.getServletContext().getAttribute("activateRole");
+
+        if(actUUID != null && actUUID.equals(code)){
+
+            roleService.activateRole(code);
+
+            request.getServletContext().removeAttribute("activateRole");
+
+            model.addAttribute("msg","激活成功!返回原页面即可完成添加操作");
+
+            return "/msg";
+
+        }
+
+        model.addAttribute("msg","这可能是一个失效的链接");
+
+        return "/msg";
+
+    }
 
     /* 遍历所有权限信息方法 */
     private void findRole(){
