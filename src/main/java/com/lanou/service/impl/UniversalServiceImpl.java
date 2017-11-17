@@ -49,6 +49,19 @@ public class UniversalServiceImpl implements UniversalService {
         return universalMapper.findAllUser();
     }
 
+    public Boolean findUserByEmail(String email) {
+
+        AdminInfo byEmail = universalMapper.findUserByEmail(email);
+
+        if(byEmail == null){
+
+            return true;
+
+        }
+
+        return false;
+    }
+
     public boolean updateUser(AdminInfo adminInfo) {
 
         int count = universalMapper.updateUser(adminInfo);

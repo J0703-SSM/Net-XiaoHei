@@ -130,6 +130,37 @@ public class RoleController {
 
     }
 
+    /* 删除角色 */
+    @ResponseBody
+    @RequestMapping("/deleteRole")
+    public ResultMsg deleteRole(int roleId){
+
+        List<AdminInfo> infoList = roleService.deleteRole(roleId);
+
+        if(infoList.isEmpty()){
+
+            return new ResultMsg(0,"删除成功");
+
+        }
+
+        StringBuilder msg = new StringBuilder("<p>操作失败!有");
+
+        /* 拼接使用人数 */
+        msg.append(infoList.size()).append("个管理员正在使用该角色</p><p>管理员账户为:");
+
+        /* 拼接账户信息 */
+        for (AdminInfo adminInfo : infoList) {
+
+            msg.append(adminInfo.getAdmin_code()).append("  ");
+
+        }
+
+        msg.append("</p>");
+
+        return new ResultMsg(1,msg.toString());
+
+    }
+
     /* 邮件确认操作 */
     @RequestMapping("/activateEmail/{code}")
     public String activate(@PathVariable String code, HttpServletRequest request, Model model){

@@ -82,4 +82,30 @@
             parameterType="java.lang.String">
         UPDATE ROLE_INFO SET state = TRUE WHERE code=#{value}
     </update>
+
+    <resultMap id="AdminInfoMap" type="com.lanou.domain.AdminInfo">
+        <id column="ADMIN_ID" property="id"/>
+    </resultMap>
+
+    <!-- 通过角色id查找用户 -->
+    <select id="findUserByRoleId"
+            parameterType="int"
+            resultMap="AdminInfoMap">
+        SELECT ADMIN_ID FROM ADMIN_ROLE WHERE ROLE_ID=#{value}
+    </select>
+
+    <!-- 删除角色 -->
+    <update id="deleteRole"
+            parameterType="int">
+        UPDATE ROLE_INFO SET state = FALSE WHERE ID = #{value}
+    </update>
+
+    <!-- 根据uuid查询角色 -->
+    <select id="findRoleByUUID"
+            parameterType="java.lang.String"
+            resultMap="adminRoleMap">
+        SELECT ROLE_INFO.ID rid,ROLE_INFO.NAME rname
+        FROM ROLE_INFO
+        WHERE ROLE_INFO.code=#{value}
+    </select>
 </mapper>

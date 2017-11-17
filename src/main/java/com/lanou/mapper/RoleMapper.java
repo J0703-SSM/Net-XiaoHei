@@ -1,6 +1,7 @@
 package com.lanou.mapper;
 
 import com.lanou.domain.AdminForRole;
+import com.lanou.domain.AdminInfo;
 import com.lanou.domain.Role;
 import com.lanou.domain.RoleForUser;
 
@@ -11,7 +12,11 @@ import java.util.List;
  */
 public interface RoleMapper {
 
+    List<AdminInfo> findUserByRoleId(int id);
+
     AdminForRole findRoleByName(String roleName);
+
+    AdminForRole findRoleByUUID(String code);
 
     List<Role> findRoleById(int id);
 
@@ -26,4 +31,6 @@ public interface RoleMapper {
     int addRoleId(Role role);
 
     int activeRole(String code);
+
+    int deleteRole(int id);
 }

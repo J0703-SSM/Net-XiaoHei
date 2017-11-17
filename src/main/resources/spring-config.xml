@@ -97,6 +97,7 @@
             <mvc:exclude-mapping path="/BS/**"/>
             <mvc:exclude-mapping path="/images/**"/>
             <mvc:exclude-mapping path="/styles/**"/>
+            <mvc:exclude-mapping path="/w2ui-1.5.rc1/**"/>
             <!-- 拦截器对应的类路径 -->
             <bean class="com.lanou.interceptor.LoginInterceptor"/>
         </mvc:interceptor>

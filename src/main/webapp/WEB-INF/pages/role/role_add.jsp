@@ -67,16 +67,38 @@
         <!--导航区域开始-->
         <div id="navi">
             <ul id="menu">
-                <li><a href="../index.jsp" class="index_off"></a></li>
-                <li><a href="role_list.jsp" class="role_on"></a></li>
-                <li><a href="../admin/admin_list.jsp" class="admin_off"></a></li>
-                <li><a href="../fee/fee_list.jsp" class="fee_off"></a></li>
-                <li><a href="../account/account_list.jsp" class="account_off"></a></li>
-                <li><a href="../service/service_list.jsp" class="service_off"></a></li>
-                <li><a href="../bill/bill_list.jsp" class="bill_off"></a></li>
-                <li><a href="../report/report_list.jsp" class="report_off"></a></li>
-                <li><a href="../user/user_info.jsp" class="information_off"></a></li>
-                <li><a href="../user/user_modi_pwd.jsp" class="password_off"></a></li>
+                <li><a href="/universal/intoIndex" class="index_off"></a></li>
+
+                <c:if test="${mapInfo['1'] != null}">
+                    <li><a href="/role/roleList" class="role_on"></a></li>
+                </c:if>
+
+                <c:if test="${mapInfo['2'] != null}">
+                    <li><a href="/role/adminList" class="admin_off"></a></li>
+                </c:if>
+
+                <c:if test="${mapInfo['3'] != null}">
+                    <li><a href="fee/fee_list.jsp" class="fee_off"></a></li>
+                </c:if>
+
+                <c:if test="${mapInfo['4'] != null}">
+                    <li><a href="account/account_list.jsp" class="account_off"></a></li>
+                </c:if>
+
+                <c:if test="${mapInfo['5'] != null}">
+                    <li><a href="service/service_list.jsp" class="service_off"></a></li>
+                </c:if>
+
+                <c:if test="${mapInfo['6'] != null}">
+                    <li><a href="bill/bill_list.jsp" class="bill_off"></a></li>
+                </c:if>
+
+                <c:if test="${mapInfo['7'] != null}">
+                    <li><a href="report/report_list.jsp" class="report_off"></a></li>
+                </c:if>
+
+                <li><a href="/userInfo/into" class="information_off"></a></li>
+                <li><a href="/userInfo/intoRewrite" class="password_off"></a></li>
             </ul>
         </div>
         <!--导航区域结束-->
@@ -188,6 +210,9 @@
             $("#mymodal-data").modal();
 
             $("#form").submit();
+
+            /* 移除提交按钮 */
+            $("#submitBut").remove();
 
         }
     </script>

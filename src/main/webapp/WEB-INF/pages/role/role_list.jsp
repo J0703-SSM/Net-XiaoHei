@@ -8,12 +8,26 @@
         <title></title>
         <link type="text/css" rel="stylesheet" media="all" href="../../../styles/global.css" />
         <link type="text/css" rel="stylesheet" media="all" href="../../../styles/global_color.css" />
+        <link rel="stylesheet" type="text/css" href="../../../w2ui-1.5.rc1/w2ui-1.5.rc1.css" />
+        <script src="../../../BS/js/jquery-3.2.1.js"></script>
+        <script type="text/javascript" src="../../../w2ui-1.5.rc1/w2ui-1.5.rc1.js"></script>
         <script language="javascript" type="text/javascript">
             function deleteRole() {
                 var r = window.confirm("确定要删除此角色吗？");
                 document.getElementById("operate_result_info").style.display = "block";
             }
         </script>
+        <style>
+
+            .line{
+
+                position:absolute;
+                left:400px; /*左右位置*/
+                top:84px;/*上下位置*/
+
+            }
+
+        </style>
     </head>
     <body>
         <!--Logo区域开始-->
@@ -26,12 +40,13 @@
         <div id="navi">                        
             <ul id="menu">
                 <li><a href="/universal/intoIndex" class="index_off"></a></li>
+
                 <c:if test="${mapInfo['1'] != null}">
                     <li><a href="/role/roleList" class="role_on"></a></li>
                 </c:if>
 
                 <c:if test="${mapInfo['2'] != null}">
-                    <li><a href="admin/admin_list.jsp" class="admin_off"></a></li>
+                    <li><a href="/role/adminList" class="admin_off"></a></li>
                 </c:if>
 
                 <c:if test="${mapInfo['3'] != null}">
@@ -53,8 +68,9 @@
                 <c:if test="${mapInfo['7'] != null}">
                     <li><a href="report/report_list.jsp" class="report_off"></a></li>
                 </c:if>
-                <li><a href="../user/user_info.jsp" class="information_off"></a></li>
-                <li><a href="../user/user_modi_pwd.jsp" class="password_off"></a></li>
+
+                <li><a href="/userInfo/into" class="information_off"></a></li>
+                <li><a href="/userInfo/intoRewrite" class="password_off"></a></li>
             </ul>            
         </div>
         <!--导航区域结束-->
@@ -80,10 +96,10 @@
                             <th class="td_modi"></th>
                         </tr>
                         <c:forEach items="${roles}" var="roleBox">
-                        <tr>
+                        <tr id="${roleBox.roleId}">
                             <td>${roleBox.roleId}</td>
-                            <td>${roleBox.roleName}</td>
-                            <td>
+                            <td id="${roleBox.roleName}">${roleBox.roleName}</td>
+                            <td id="${roleBox.roleId}value">
 
                                 <c:forEach items="${roleBox.roles}" var="role" varStatus="s">
 
@@ -96,28 +112,99 @@
                             </td>
                             <td>
                                 <input type="button" value="修改" class="btn_modify" onclick="location.href='role_modi.jsp';"/>
-                                <input type="button" value="删除" class="btn_delete" onclick="deleteRole();" />
+                                <input type="button" value="删除" class="btn_delete" onclick="deletePop('${roleBox.roleName}','${roleBox.roleId}value','${roleBox.roleId}');" />
                             </td>
                         </tr>
                         </c:forEach>
                     </table>
                 </div> 
                 <!--分页-->
-                <div id="pages">
-        	        <a href="#">上一页</a>
-                    <a href="#" class="current_page">1</a>
-                    <a href="#">2</a>
-                    <a href="#">3</a>
-                    <a href="#">4</a>
-                    <a href="#">5</a>
-                    <a href="#">下一页</a>
-                </div>
+                <%--<div id="pages">--%>
+        	        <%--<a href="#">上一页</a>--%>
+                    <%--<a href="#" class="current_page">1</a>--%>
+                    <%--<a href="#">2</a>--%>
+                    <%--<a href="#">3</a>--%>
+                    <%--<a href="#">4</a>--%>
+                    <%--<a href="#">5</a>--%>
+                    <%--<a href="#">下一页</a>--%>
+                <%--</div>--%>
             </form>
         </div>
         <!--主要区域结束-->
         <div id="footer">
-            <p>[源自北美的技术，最优秀的师资，最真实的企业环境，最适用的实战项目]</p>
-            <p>版权所有(C)云科技有限公司 </p>
+            <p>[Thanks for W2UI]</p>
+            <p>Powered By XiaoHei </p>
         </div>
     </body>
+<script type="text/javascript">
+    function deletePop(roleName,roleIdValue,roleId) {
+        w2popup.open({
+            width   : 580,
+            height  : 350,
+            title   : '确认删除',
+            body    : '<div class="w2ui-centered" style="line-height: 1.8">'+
+                    '     <h3>要删除的角色:'+ roleName +
+                    '</h3><br>关联的权限:'+ $("#" + roleIdValue).text()+ '<br><br>'+
+                    '<div style="text-align: center">验证码: <input class="w2ui-input" id="code" style="margin-bottom: 5px">'+
+                    '<div class="line"><img src="/universal/codeImg?a='+Math.random()+'" alt="验证码" title="点击更换" id="verifyCodeImage" onclick="changeImage()"/></div>'+
+                    '</div>',
+            buttons : '<button class="w2ui-btn" onclick="passCode('+ roleId +')">确认删除</button>'+
+            '<button class="w2ui-btn" onclick="w2popup.close()">取消</button>'
+        });
+
+    }
+
+    <%--点击更新验证--%>
+    function changeImage() {
+
+        $("#verifyCodeImage").attr('src', '/universal/codeImg?a=' + Math.random())
+
+    }
+
+    function passCode(roleId) {
+
+        $.post("/universal/passCode",{codeText:$("#code").val()},function (date) {
+
+            if(date['codeTrue'] != null){
+
+
+
+                /* 嵌套ajax */
+                $.post("/role/deleteRole",{roleId:roleId},function (result) {
+
+                    if(result.resultCode == 0){
+
+                        w2alert(result.message);
+
+                        /* 删除页面元素,完成局部刷新 */
+                        $("#" + roleId).remove();
+
+                        window.setTimeout("w2popup.close();",1200);
+
+                    }
+
+                    if(result.resultCode == 1){
+
+                        w2alert(result.message);
+
+                        window.setTimeout("w2popup.close();",4000);
+
+                    }
+
+                });
+
+
+
+            }
+
+            if(date['codeFalse'] != null){
+
+                w2alert(date['codeFalse'])
+
+            }
+
+        })
+
+    }
+</script>
 </html>

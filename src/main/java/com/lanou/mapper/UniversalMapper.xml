@@ -33,6 +33,14 @@
         WHERE id = #{value}
     </select>
 
+    <!-- 根据email查找用户 -->
+    <select id="findUserByEmail"
+            parameterType="java.lang.String"
+            resultType="com.lanou.domain.AdminInfo">
+        SELECT * FROM admin_info
+        WHERE email = #{value}
+    </select>
+
     <!-- 遍历所有用户 -->
     <select id="findAllUser"
             resultType="com.lanou.domain.AdminInfo">

@@ -26,4 +26,6 @@ public interface RoleService {
 
     void activateRole(String code);
 
+    List<AdminInfo> deleteRole(int roleId);
+
 }

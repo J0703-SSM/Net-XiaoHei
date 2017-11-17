@@ -16,6 +16,8 @@ public interface UniversalMapper {
 
     AdminInfo findUserById(int id);
 
+    AdminInfo findUserByEmail(String email);
+
     List<AdminInfo> findAllUser();
 
     int updateUser(AdminInfo adminInfo);

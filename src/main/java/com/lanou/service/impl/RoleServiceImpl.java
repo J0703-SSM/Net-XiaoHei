@@ -5,6 +5,7 @@ import com.lanou.domain.AdminInfo;
 import com.lanou.domain.Role;
 import com.lanou.domain.RoleForUser;
 import com.lanou.mapper.RoleMapper;
+import com.lanou.mapper.UniversalMapper;
 import com.lanou.service.RoleService;
 import com.lanou.util.mail.Mail;
 import com.lanou.util.mail.MailUtils;
@@ -14,10 +15,7 @@ import javax.annotation.Resource;
 import javax.mail.MessagingException;
 import javax.mail.Session;
 import java.io.IOException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by dllo on 17/11/13.
@@ -27,6 +25,10 @@ public class RoleServiceImpl implements RoleService {
 
     @Resource
     private RoleMapper roleMapper;
+
+    @Resource
+    private UniversalMapper universalMapper;
+
 
     private List<AdminForRole> roleName;
 
@@ -76,6 +78,34 @@ public class RoleServiceImpl implements RoleService {
 
     }
 
+    public List<AdminInfo> deleteRole(int roleId){
+
+        List<AdminInfo> infoList = roleMapper.findUserByRoleId(roleId);
+
+        if(infoList.isEmpty()){
+
+            /* 执行删除操作 */
+            roleMapper.deleteRole(roleId);
+
+            return infoList;
+
+        }
+
+        List<AdminInfo> userList = new ArrayList<AdminInfo>();
+
+        for (AdminInfo adminInfo : infoList) {
+
+            AdminInfo userById = universalMapper.findUserById(adminInfo.getId());
+
+            userList.add(userById);
+
+        }
+
+        /* 返回用户信息集合 */
+        return userList;
+
+    }
+
     /* 插入角色至数据库 */
     public String addRole(int[] role, String roleName, String email) throws IOException, MessagingException {
 
@@ -95,7 +125,7 @@ public class RoleServiceImpl implements RoleService {
         roleMapper.addRolezInfo(adminForRole);
 
         /* 重新查询插入的数据 */
-        adminForRole = roleMapper.findRoleByName(roleName);
+        adminForRole = roleMapper.findRoleByUUID(uuid);
 
         /* 插入不成功返回false */
         if(adminForRole == null) return null;

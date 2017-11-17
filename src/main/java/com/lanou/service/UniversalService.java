@@ -1,6 +1,7 @@
 package com.lanou.service;
 
 import com.lanou.domain.AdminInfo;
+import org.junit.Before;
 
 import java.util.List;
 
@@ -16,6 +17,8 @@ public interface UniversalService {
     AdminInfo findUserById(int id);
 
     List<AdminInfo> findAllUser();
+
+    Boolean findUserByEmail(String email);
 
     boolean updateUser(AdminInfo adminInfo);
 

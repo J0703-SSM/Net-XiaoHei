@@ -7,6 +7,9 @@ import com.lanou.domain.RoleForUser;
 import com.lanou.mapper.RoleMapper;
 import com.lanou.mapper.UniversalMapper;
 import com.lanou.service.UniversalService;
+import com.lanou.util.HttpClientUtil;
+import org.apache.http.client.HttpClient;
+import org.apache.http.impl.client.DefaultHttpClient;
 import org.junit.Before;
 import org.junit.Test;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +17,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.web.WebAppConfiguration;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -125,6 +129,18 @@ public class UniversalTest {
     public void startUUID(){
 
         System.out.println(UUID.randomUUID().toString().replace("-",""));
+
+    }
+
+    @Test
+    public void sendMessage() throws IOException {
+
+
+//        HttpClient httpClient = new DefaultHttpClient();
+
+        String code = HttpClientUtil.sendMessage("18604943831");
+
+        System.out.println(code);
 
     }
 

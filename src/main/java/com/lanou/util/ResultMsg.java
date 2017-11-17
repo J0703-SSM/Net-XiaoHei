@@ -14,6 +14,10 @@ public class ResultMsg<T> {
     public ResultMsg() {
     }
 
+    public ResultMsg(int resultCode) {
+        this.resultCode = resultCode;
+    }
+
     public ResultMsg(int resultCode, String message) {
         this.resultCode = resultCode;
         this.message = message;
