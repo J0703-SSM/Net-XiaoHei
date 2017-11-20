@@ -1,14 +1,11 @@
 package com.lanou.util;
 
-import com.lanou.util.CheckSumBuilder;
-import net.sf.json.JSONObject;
-import org.apache.http.HttpEntity;
+
 import org.apache.http.HttpResponse;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.junit.Test;
 
 import java.io.*;
 
@@ -23,11 +20,7 @@ public class HttpClientUtil {
 
     private static final String appSecret = "166d84821ff4";
 
-//    private CheckSumBuilder csb = new CheckSumBuilder();
-
     public static String sendMessage(String phoneNumber) throws IOException {
-
-//        String responseContent = null;
 
         HttpClient httpClient = new DefaultHttpClient();
 

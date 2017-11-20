@@ -2,10 +2,14 @@ package com.lanou.controller;
 
 import com.lanou.domain.AdminForRole;
 import com.lanou.domain.AdminInfo;
+import com.lanou.domain.Netease;
 import com.lanou.domain.RoleForUser;
 import com.lanou.service.RoleService;
 import com.lanou.service.UniversalService;
+import com.lanou.util.HttpClientUtil;
+import com.lanou.util.ResultMsg;
 import com.lanou.util.VerifyCode;
+import net.sf.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
@@ -36,6 +40,8 @@ public class UniversalController {
     private RoleService roleService;
 
     private String verifyCode;
+
+    private String netMsgObj;
 
     @RequestMapping("/login")
     public String loginIn(String username, String password, String verfCode, Model model,HttpServletRequest request){
@@ -168,11 +174,49 @@ public class UniversalController {
 
     }
 
+    /* 发送手机验证码 */
+    @ResponseBody
+    @RequestMapping("/sendMessage")
+    public Netease sendMessage(String phoneNumber) throws IOException {
+
+        String result = HttpClientUtil.sendMessage(phoneNumber);
+
+        /* 将字符串格式化为对象 */
+        Netease netMsg = (Netease) JSONObject.toBean(JSONObject.fromObject(result), Netease.class);
+
+        netMsgObj = netMsg.getObj();
+
+        return netMsg;
+
+    }
+
+    /* 判断手机验证码 */
+    @ResponseBody
+    @RequestMapping("/passPhoneMsg")
+    public ResultMsg passPhoneMsg(String phoneMsg){
+
+        if(phoneMsg.trim().length() < 4 || phoneMsg.trim().length() > 5){
+
+            return new ResultMsg(1,"验证码长度不正确");
+
+        }
+
+        if(!phoneMsg.trim().equals(netMsgObj)){
+
+            return new ResultMsg(1,"验证码不匹配,请重新输入");
+
+        }
+
+        return new ResultMsg(0);
+
+    }
     /* 进入index界面 */
-    @RequestMapping("intoIndex")
+    @RequestMapping("/intoIndex")
     public String intoIndex(){
 
         return "index";
 
     }
+
+
 }

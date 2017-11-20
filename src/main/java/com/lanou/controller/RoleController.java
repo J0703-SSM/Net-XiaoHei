@@ -7,12 +7,10 @@ import com.lanou.domain.RoleForUser;
 import com.lanou.service.RoleService;
 import com.lanou.service.UniversalService;
 import com.lanou.util.ResultMsg;
-import com.lanou.util.mail.MailUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -182,6 +180,13 @@ public class RoleController {
         model.addAttribute("msg","这可能是一个失效的链接");
 
         return "/msg";
+
+    }
+    /* 进入修改页面 */
+    @RequestMapping("/intoUpdateRole")
+    public String intoUpdateRole(){
+
+        return "role/role_modi";
 
     }
 

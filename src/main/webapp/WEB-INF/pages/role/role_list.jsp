@@ -111,7 +111,7 @@
 
                             </td>
                             <td>
-                                <input type="button" value="修改" class="btn_modify" onclick="location.href='role_modi.jsp';"/>
+                                <input type="button" value="修改" class="btn_modify" onclick="updatePop('${roleBox.roleName}','${roleBox.roleId}value');"/>
                                 <input type="button" value="删除" class="btn_delete" onclick="deletePop('${roleBox.roleName}','${roleBox.roleId}value','${roleBox.roleId}');" />
                             </td>
                         </tr>
@@ -152,6 +152,116 @@
             '<button class="w2ui-btn" onclick="w2popup.close()">取消</button>'
         });
 
+    }
+
+    /* 更新确认窗体 */
+    function updatePop(roleName,roleIdValue) {
+
+        w2popup.open({
+            width   : 580,
+            height  : 350,
+            title   : '修改角色',
+            body    : '<div class="w2ui-centered" style="line-height: 1.8">'+
+            '   <h3>要修改的角色:'+ roleName +'</h3>'+
+            '关联的权限:'+ $("#" + roleIdValue).text() +
+            '<br><br>'+
+            '     手机验证码: <input class="w2ui-input" id="phoneMsg" style="margin-bottom: 5px">' +
+            '<button class="w2ui-btn-blue" style="margin-left: 10px" id="btnSendCode" onclick="sendMessage();phoneMessage();" value="获取验证码">获取验证码</button>'+
+            '</div>',
+            buttons : '<button class="w2ui-btn" onclick="passPhoneMsg()">确认</button>'+
+            '<button class="w2ui-btn" onclick="w2popup.close()">返回</button>'
+        });
+
+    }
+
+    /* 执行短信发送请求 */
+    function phoneMessage() {
+
+        $.post("/universal/sendMessage",{phoneNumber:${user.adminInfo.telephone}},function (result) {
+
+            if(result.code == 200){
+
+                w2alert("验证码已发出");
+
+            }else {
+
+                w2alert("验证码发送失败,请关闭后重试");
+
+            }
+
+        })
+
+    }
+
+    /* 判断验证码是否正确 */
+    function passPhoneMsg() {
+
+        if($("#phoneMsg").val() == ""){
+
+            w2alert("验证码不能为空");
+
+            return false;
+
+        }
+
+        $.post("/universal/passPhoneMsg",{
+
+            phoneMsg:$("#phoneMsg").val()
+
+        },function(result){
+
+            if(result.resultCode == 0){
+
+                window.location = "/role/intoUpdateRole";
+
+            }else {
+
+                w2alert(result.message);
+
+            }
+
+        })
+
+    }
+
+    /* js点击获取验证码倒计时 */
+    var InterValObj; //timer变量，控制时间
+    var count = 30; //间隔函数，1秒执行
+    var curCount;//当前剩余秒数
+
+    function sendMessage() {
+
+        curCount = count;
+
+        //设置button效果，开始计时
+        $("#btnSendCode").attr("disabled", "true");
+
+        $("#btnSendCode").val(curCount + "秒后可重新发送");
+
+        InterValObj = window.setInterval(SetRemainTime, 1000); //启动计时器，1秒执行一次
+
+        //请求后台发送验证码 TODO
+
+    }
+
+    //timer处理函数
+    function SetRemainTime() {
+
+        if (curCount == 0) {
+
+            window.clearInterval(InterValObj);//停止计时器
+
+            $("#btnSendCode").removeAttr("disabled");//启用按钮
+
+            $("#btnSendCode").val("重新发送验证码");
+
+        }
+        else {
+
+            curCount--;
+
+            $("#btnSendCode").val(curCount + "秒后可重新发送");
+        }
     }
 
     <%--点击更新验证--%>
