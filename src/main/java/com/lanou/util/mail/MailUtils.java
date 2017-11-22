@@ -1,7 +1,5 @@
 package com.lanou.util.mail;
 
-import com.lanou.util.mail.AttachBean;
-import com.lanou.util.mail.Mail;
 import java.io.IOException;
 import java.util.Iterator;
 import java.util.List;
